@@ -36,6 +36,9 @@ module.exports = function(bot) {
     var getTags = function() {
       var body = ''
       var req = http.get(base + 'tags', function(res){
+        if (res.statusCode !== 200) {
+          return
+        }
         res.on('data', function(chunk) {
           body += chunk.toString()
         })
