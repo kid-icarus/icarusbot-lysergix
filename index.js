@@ -1,4 +1,5 @@
 var http = require('http')
+var terminus = require('terminus')
 
 module.exports = function(bot) {
   var base =  'http://smiley.meatcub.es:1337/api/v1/'
@@ -23,13 +24,13 @@ module.exports = function(bot) {
       }
 
       var req = http.get(base + endpoint, function(res){
-        res.on('data', function(chunk) {
-          body += chunk.toString()
-        })
-        res.on('end', function(){
-          face = JSON.parse(body)
+        if (res.statusCode !== 200) {
+          return
+        }
+        res.pipe(terminus(function(body){
+          face = JSON.parse(body.toString())
           bot.msg([msg.chan], (msg.sender + ': ' + face.content))
-        })
+        }))
       })
     }
 
@@ -39,13 +40,10 @@ module.exports = function(bot) {
         if (res.statusCode !== 200) {
           return
         }
-        res.on('data', function(chunk) {
-          body += chunk.toString()
-        })
-        res.on('end', function(){
+        res.pipe(terminus(function(body){
           tags = JSON.parse(body).join(', ')
           bot.msg([msg.chan], (msg.sender + ': ' + tags))
-        })
+        }))
       })
     }
 

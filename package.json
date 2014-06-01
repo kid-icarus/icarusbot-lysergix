@@ -1,6 +1,6 @@
 {
   "name": "icarusbot-lysergix",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,8 @@
     "url": "https://github.com/kid-icarus/icarusbot-lysergix"
   },
   "author": "Ryan Kois",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "terminus": "^1.0.9"
+  }
 }
